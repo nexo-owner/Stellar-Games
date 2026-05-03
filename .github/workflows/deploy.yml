@@ -32,12 +32,13 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --dir .
 
       - name: Build
-        run: pnpm --filter @workspace/stellar run build
+        run: pnpm run build
         env:
           BASE_PATH: /Stellar-Games/
 

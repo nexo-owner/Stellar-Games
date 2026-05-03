@@ -32,20 +32,22 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --dir .
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build
+        run: pnpm --filter @workspace/stellar run build
         env:
           BASE_PATH: /Stellar-Games/
+
+      - name: Create index redirect
+        run: cp artifacts/stellar/docs/index.html artifacts/stellar/docs/404.html
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: artifacts/stellar/dist/public
+          path: artifacts/stellar/docs
 
   deploy:
     environment:
